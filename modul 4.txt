@@ -1,0 +1,35 @@
+create table mata_kuliah (
+kode_matkul char(10) primary key,
+nama_matkul varchar(30) not null,
+jumlah_sks integer not null
+);
+
+create table dosen (
+nidn_dosen integer primary key,
+nama_dosen varchar(40) not null
+);
+
+create table kelas (
+kode_kelas char(5) primary key,
+kode_matkulFK char(10) references mata_kuliah(kode_matkul) on delete cascade on update cascade,
+nama_gedung varchar(20) not null
+);
+
+create table mahasiswa (
+nim_mhs char(10) primary key,
+kode_kelasFK char(5) references kelas(kode_kelas) on delete cascade on update cascade,
+nama_mhs varchar(40) not null,
+telp_mhs integer not null
+);
+
+create table mahasiswa_has_mata_kuliah (
+nim_mhsFK char(10) references mahasiswa(nim_mhs) on delete cascade on update cascade,
+kode_matkulFK char(10) references mata_kuliah(kode_matkul) on delete cascade on update cascade,
+primary key(nim_mhsFK, kode_matkulFK)
+);
+
+create table dosen_has_mata_kuliah (
+nidn_dosenFK integer references dosen(nidn_dosen) on delete cascade on update cascade,
+kode_matkulFK char(10) references mata_kuliah(kode_matkul) on delete cascade on update cascade,
+primary key(nidn_dosenFK, kode_matkulFK)
+);
