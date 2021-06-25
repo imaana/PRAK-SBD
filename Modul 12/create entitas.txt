@@ -1,0 +1,35 @@
+CREATE TABLE dokter(
+nipd_dokter INTEGER PRIMARY KEY,
+nama_dokter VARCHAR(40) NOT NULL,
+alm_dokter VARCHAR(100) NOT NULL,
+spesialisasi VARCHAR(40) NOT NULL
+);
+
+CREATE TABLE pasien(
+nik_pasien INTEGER PRIMARY KEY,
+nama_pasien VARCHAR(40) NOT NULL,
+alm_pasien VARCHAR(100) NOT NULL,
+tgl_lahir DATE NOT NULL default current_timestamp
+);
+
+CREATE TABLE obat(
+no_obat INTEGER PRIMARY KEY,
+nama_obat VARCHAR(40) NOT NULL,
+jenis_obat VARCHAR(40) NOT NULL,
+harga INTEGER NOT NULL
+);
+
+CREATE TABLE pasien_has_obat(
+nik_pasienFK INTEGER REFERENCES pasien(nik_pasien) ON DELETE CASCADE ON UPDATE CASCADE,
+no_obatFK INTEGER REFERENCES obat(no_obat) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE pelayanan(
+no_pelayanan SERIAL PRIMARY KEY,
+nik_pasienFK INTEGER REFERENCES pasien(nik_pasien) ON DELETE CASCADE ON UPDATE CASCADE,
+nipd_dokterFK INTEGER REFERENCES dokter(nipd_dokter) ON DELETE CASCADE ON UPDATE CASCADE,
+gejala VARCHAR(255) NOT NULL,
+keluhan VARCHAR(255) NOT NULL,
+solusi VARCHAR(255) NOT NULL,
+tanggal DATE NOT NULL default current_timestamp
+);
